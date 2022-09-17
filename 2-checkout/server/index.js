@@ -12,7 +12,8 @@ const app = express();
 // Adds `req.session_id` based on the incoming cookie value.
 // Generates a new session if one does not exist.
 app.use(sessionHandler);
-
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 // Logs the time, session_id, method, and url of incoming requests.
 app.use(logger);
 
@@ -26,6 +27,25 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
  *
  * 
  */
+
+
+app.post('/data', (req, res)=>{
+ console.log(req);
+
+  if(!req.get("cookie")) {
+    sessionHandler(req, res, () => {
+          db.save(req.body, (req, res) => {
+            res.send("Successfully purchased!")
+          });
+        })
+       } else {
+      res.send('you have already purchased!')
+  }
+});
+
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+});
 
 app.listen(process.env.PORT);
 console.log(`Listening at http://localhost:${process.env.PORT}`);
