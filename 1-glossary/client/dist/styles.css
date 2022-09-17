@@ -54,7 +54,15 @@ h6 {
 }
 
 main {
-  max-width: 840px;
+  max-width: 900px;
   padding: 16px;
   margin: auto;
+}
+
+.newDefinitionDisplay {
+  width: 600px
+}
+
+.newWordDisplay {
+  font-weight:bold
 }
